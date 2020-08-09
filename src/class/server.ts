@@ -5,20 +5,27 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import socketIO from 'socket.io';
+import _sk from '../sockets/socket';
 
 export default class Server {
+  private static _instance: Server;
   private httpServer: http.Server;
   public app: express.Application;
   public port: Number;
   public io: socketIO.Server;
 
-  constructor() {
+  private constructor() {
     this.app = express();
     this.port = SERVER_PORT;
     this.addPlugins();
 
     this.httpServer = new http.Server(this.app);
     this.io = socketIO(this.httpServer);
+    this.listenSocket();
+  }
+
+  public static get instance() {
+    return this._instance || (this._instance = new this());
   }
 
   start(callback: any) {
@@ -41,7 +48,9 @@ export default class Server {
     console.log('escuchando conecciones - socket');
 
     this.io.on('connection', (client) => {
-      console.log('nueva coneccion al socket');
+      _sk.getChatMessage(client, this.io);
+
+      _sk.desconectado(client);
     });
   }
 }

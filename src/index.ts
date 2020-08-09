@@ -3,7 +3,7 @@ require('dotenv').config();
 import Server from './class/server';
 import router from './routes/router';
 
-const server = new Server();
+const server = Server.instance;
 
 server.addRouter(router);
 

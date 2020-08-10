@@ -45,12 +45,15 @@ export default class Server {
   }
 
   private listenSocket() {
-    console.log('escuchando conecciones - socket');
-
     this.io.on('connection', (client) => {
+      _sk.userConnect(client);
+
       _sk.getChatMessage(client, this.io);
 
       _sk.desconectado(client);
+
+      // _sk.setUpUser(client, this.io);
+      _sk.setUpUser(client);
     });
   }
 }

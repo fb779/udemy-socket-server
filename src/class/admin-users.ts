@@ -17,12 +17,14 @@ export class AdminUsers {
         break;
       }
     }
+  }
 
-    console.log('Usuarios', this.list);
+  getAllUsers() {
+    return this.list;
   }
 
   getList() {
-    return this.list;
+    return this.list.filter((el) => el.name !== 'No-Name');
   }
 
   getUser(id: string) {

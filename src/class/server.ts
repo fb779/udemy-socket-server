@@ -5,7 +5,8 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import socketIO from 'socket.io';
-import _sk from '../sockets/socket';
+// import * as _sk from '../sockets/socket';
+import * as _sk from '../sockets/socket';
 
 export default class Server {
   private static _instance: Server;
@@ -50,14 +51,17 @@ export default class Server {
 
   private listenSocket() {
     this.io.on('connection', (client) => {
-      _sk.userConnect(client);
+      _sk.userConnect(client, this.io);
+
+      _sk.getListUsers(client, this.io);
+
+      // _sk.userDisconnect(client, this.io);
+
+      _sk.setUpUser(client, this.io);
 
       _sk.getChatMessage(client, this.io);
 
-      _sk.desconectado(client);
-
-      // _sk.setUpUser(client, this.io);
-      _sk.setUpUser(client);
+      _sk.desconectado(client, this.io);
     });
   }
 }

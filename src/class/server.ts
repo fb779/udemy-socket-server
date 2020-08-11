@@ -28,6 +28,10 @@ export default class Server {
     return this._instance || (this._instance = new this());
   }
 
+  public static get instanceSocket() {
+    return this.instance.io;
+  }
+
   start(callback: any) {
     // this.app.listen(this.port, callback);
     this.httpServer.listen(this.port, callback);

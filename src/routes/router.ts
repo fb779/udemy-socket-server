@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import * as msgCtrl from '../controllers/mesasge.controller';
 
 const router = Router();
 
@@ -9,12 +10,8 @@ router.get('/mensajes', (req: Request, res: Response) => {
   });
 });
 
-router.post('/mensajes', (req: Request, res: Response) => {
-  res.json({
-    ok: true,
-    message: 'holaaaa',
-    data: req.body,
-  });
-});
+router.post('/mensajes', msgCtrl.publicMessage);
+
+router.post('/mensajes/:id', msgCtrl.privateMessage);
 
 export default router;
